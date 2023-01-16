@@ -24,15 +24,15 @@ def get_weather(city, OPEN_WEATHER_TOKEN):
             f'&lang=ru&appid={OPEN_WEATHER_TOKEN}&units=metric'
         )
         data = request.json()
-        pprint(data)
+        # pprint(data)
 
         city = data['name']
-        weather = data['weather'][0]['description']
+        weather = data['weather'][0]['main']
         if weather in code_to_smile:
             smile = code_to_smile[weather]
         else:
-            smile = "Посмотри"
-        cur_weather = data['main']['temp']
+            smile = 'Посмотри в окно, не пойму, что там за погода!'
+        temp = data['main']['temp']
         humidity = data['main']['humidity']
         pressure = data['main']['pressure']
         wind = data['wind']['speed']
@@ -41,10 +41,13 @@ def get_weather(city, OPEN_WEATHER_TOKEN):
         length_day = sunset - sunrise
 
         print(
-            f'*** {datetime.datetime.now().strftime("%d-%m-%Y %H:%M")} ***\n'
-            f'city: {city}\nweather: {weather}\ncur_weather:{cur_weather}\n'
-            f'humidity: {humidity}\npressure :{pressure}\nwind: {wind}\n'
-            f'sunrise: {sunrise}\nsunset: {sunset}\nlength_day: {length_day}'
+            f'***{datetime.datetime.now().strftime("%d-%m-%Y %H:%M:%S")}***\n'
+            f'Погода в городе: {city}\nТемпература: {temp}°C {smile}\n'
+            f'Влажность: {humidity}%\nДавление: {pressure} мм.рт.ст\n'
+            f'Ветер: {wind} м/с\n'
+            f'Восход солнца: {sunrise.strftime("%H:%M:%S")}\n'
+            f'Закат солнца: {sunset.strftime("%H:%M:%S")}\n'
+            f'Продолжительность дня: {length_day}\n'
         )
 
     except Exception as error:

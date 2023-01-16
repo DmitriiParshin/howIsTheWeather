@@ -61,7 +61,9 @@ async def get_weather(message: types.Message):
         )
     except Exception as error:
         print(error)
-        await message.reply('\000002620 Проверьте название города \000002620')
+        await message.reply(
+            '\U00002620 Проверьте название города \U00002620'
+        )
 
 
 if __name__ == '__main__':

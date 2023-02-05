@@ -1,0 +1,30 @@
+version: "3.8"
+
+services:
+  bot:
+    container_name: "bot"
+    restart: always
+    env_file:
+      - ./.env
+    build: .
+    depends_on:
+      - redis
+    networks:
+      - net
+  redis:
+    container_name: "redis"
+    image: redis:alpine
+    restart: on-failure
+    environment:
+      ALLOW_EMPTY_PASSWORD: "yes"
+    command: redis-server
+    volumes:
+      - redis:/data
+    networks:
+      - net
+
+volumes:
+  redis:
+networks:
+  net:
+    driver: bridge
